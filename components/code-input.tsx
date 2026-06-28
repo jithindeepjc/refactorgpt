@@ -50,9 +50,30 @@ export function CodeInput() {
         </button>
       </div>
       {limitReached && (
-        <div className="mt-3 rounded-lg border border-amber-800/30 bg-amber-950/20 p-3 text-center">
-          <p className="text-xs text-amber-400">
-            Free limit reached — 5 refactors per month. Upgrade to Pro for unlimited.
+        <div className="mt-3 rounded-lg border border-amber-800/30 bg-amber-950/20 p-4 text-center">
+          <p className="text-sm text-amber-400 mb-3">
+            Free limit reached — 5 refactors per month.
+          </p>
+          <button
+            onClick={async () => {
+              try {
+                const res = await fetch("/api/create-checkout", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ plan: "pro" }),
+                })
+                const { url } = await res.json()
+                window.location.href = url
+              } catch {
+                // fallback
+              }
+            }}
+            className="rounded-lg bg-blue-600 px-5 py-2 text-sm font-medium text-white hover:bg-blue-700 transition-colors"
+          >
+            Upgrade to Pro — $9/mo
+          </button>
+          <p className="text-xs text-zinc-600 mt-2">
+            Unlimited refactors, private cards, no watermark
           </p>
         </div>
       )}
