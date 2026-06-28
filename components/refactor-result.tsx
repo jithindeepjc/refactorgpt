@@ -21,7 +21,7 @@ function CodeBlock({ code, label }: { code: string; label: string }) {
 }
 
 export function RefactorResult() {
-  const { result, error, reset } = useRefactor()
+  const { result, language, error, reset } = useRefactor()
 
   if (error) {
     return (
@@ -66,7 +66,7 @@ export function RefactorResult() {
               const res = await fetch("/api/store-card", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(result),
+                body: JSON.stringify({ result, language }),
               })
               const data = await res.json()
               const url = `${window.location.origin}/card/${data.id}`

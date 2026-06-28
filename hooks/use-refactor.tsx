@@ -4,6 +4,7 @@ import type { RefactorResult } from "@/lib/refactor"
 
 interface RefactorContextValue {
   result: RefactorResult | null
+  language: string
   loading: boolean
   error: string | null
   refactor: (code: string, language: string) => Promise<void>
@@ -14,17 +15,19 @@ const RefactorContext = createContext<RefactorContextValue | null>(null)
 
 export function RefactorProvider({ children }: { children: ReactNode }) {
   const [result, setResult] = useState<RefactorResult | null>(null)
+  const [language, setLanguage] = useState("Python")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const refactor = useCallback(async (code: string, language: string) => {
+  const refactor = useCallback(async (code: string, lang: string) => {
     setLoading(true)
     setError(null)
+    setLanguage(lang)
     try {
       const res = await fetch("/api/refactor", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code, language }),
+        body: JSON.stringify({ code, language: lang }),
       })
       if (!res.ok) {
         const data = await res.json()
@@ -45,7 +48,7 @@ export function RefactorProvider({ children }: { children: ReactNode }) {
   }, [])
 
   return (
-    <RefactorContext.Provider value={{ result, loading, error, refactor, reset }}>
+    <RefactorContext.Provider value={{ result, language, loading, error, refactor, reset }}>
       {children}
     </RefactorContext.Provider>
   )
