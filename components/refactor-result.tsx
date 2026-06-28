@@ -1,27 +1,11 @@
 "use client"
+import { useState } from "react"
 import { useRefactor } from "@/hooks/use-refactor"
-
-function CodeBlock({ code, label }: { code: string; label: string }) {
-  return (
-    <div className="flex-1 min-w-0">
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-xs font-medium text-zinc-500">{label}</span>
-        <button
-          onClick={() => navigator.clipboard.writeText(code)}
-          className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors"
-        >
-          Copy
-        </button>
-      </div>
-      <pre className="rounded-lg border border-zinc-800 bg-zinc-900 p-4 overflow-x-auto text-sm leading-relaxed max-h-[400px] overflow-y-auto">
-        <code>{code}</code>
-      </pre>
-    </div>
-  )
-}
+import { CodeBlock } from "./code-block"
 
 export function RefactorResult() {
   const { result, language, error, reset } = useRefactor()
+  const [copied, setCopied] = useState(false)
 
   if (error) {
     return (
@@ -54,9 +38,9 @@ export function RefactorResult() {
       )}
 
       <div className="flex flex-col md:flex-row gap-4">
-        <CodeBlock code={result.original} label="Before" />
+        <CodeBlock code={result.original} label="Before" language={language} />
         <div className="hidden md:flex items-center text-zinc-600 text-lg justify-center">→</div>
-        <CodeBlock code={result.refactored} label="After" />
+        <CodeBlock code={result.refactored} label="After" language={language} />
       </div>
 
       <div className="text-center pt-4 border-t border-zinc-800">
@@ -71,6 +55,8 @@ export function RefactorResult() {
               const data = await res.json()
               const url = `${window.location.origin}/card/${data.id}`
               await navigator.clipboard.writeText(url)
+              setCopied(true)
+              setTimeout(() => setCopied(false), 2000)
             } catch {
               // fallback
             }
@@ -82,7 +68,7 @@ export function RefactorResult() {
             <polyline points="16 6 12 2 8 6" />
             <line x1="12" y1="2" x2="12" y2="15" />
           </svg>
-          Copy shareable card URL
+          {copied ? "Copied!" : "Copy shareable card URL"}
         </button>
         <p className="mt-2 text-xs text-zinc-600">
           Share on Twitter, LinkedIn, or Slack — the preview shows the before/after card
