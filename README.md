@@ -3,9 +3,6 @@
 > Paste messy code. Get clean code + a beautiful before/after card to share.
 
 [![MIT License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](https://github.com/jithindeepjc/refactorgpt/blob/master/LICENSE)
-![Tests Passing](https://img.shields.io/badge/28%20tests-passing-brightgreen?style=for-the-badge)
-![Self-Host](https://img.shields.io/badge/status-self--host-6a0dad?style=for-the-badge)
-
 ---
 
 ## 🔥 The Viral Loop
