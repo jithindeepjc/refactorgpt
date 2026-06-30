@@ -1,18 +1,10 @@
-<div align="center">
-  <br/>
-  <h1>♻️ RefactorGPT</h1>
-  <p><strong>Paste messy code. Get clean code + a beautiful before/after card to share.</strong></p>
+# ♻️ RefactorGPT
 
-  <p>
-    <a href="https://github.com/jithindeepjc/refactorgpt/blob/master/LICENSE">
-      <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="MIT License"/>
-    </a>
-    <img src="https://img.shields.io/badge/28%20tests-passing-brightgreen?style=for-the-badge" alt="Tests Passing"/>
-    <img src="https://img.shields.io/badge/status-self--host-6a0dad?style=for-the-badge" alt="Self-Host"/>
-  </p>
+> Paste messy code. Get clean code + a beautiful before/after card to share.
 
-  <br/>
-</div>
+[![MIT License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](https://github.com/jithindeepjc/refactorgpt/blob/master/LICENSE)
+![Tests Passing](https://img.shields.io/badge/28%20tests-passing-brightgreen?style=for-the-badge)
+![Self-Host](https://img.shields.io/badge/status-self--host-6a0dad?style=for-the-badge)
 
 ---
 
@@ -149,13 +141,8 @@ MIT — free to use, modify, and share.
 
 ---
 
-<div align="center">
-  <p>
-    <a href="https://github.com/jithindeepjc/refactorgpt/issues">Report Bug</a> ·
-    <a href="https://github.com/jithindeepjc/refactorgpt/issues">Feature Request</a>
-  </p>
-  <p>
-    <sub>Built with Next.js + Shiki + Stripe + OpenRouter</sub>
-  </p>
-  <br/>
-</div>
+---
+
+[Report Bug](https://github.com/jithindeepjc/refactorgpt/issues) · [Feature Request](https://github.com/jithindeepjc/refactorgpt/issues)
+
+*Built with Next.js + Shiki + Stripe + OpenRouter*
