@@ -4,13 +4,11 @@
   <p><strong>Paste messy code. Get clean code + a beautiful before/after card to share.</strong></p>
 
   <p>
-    <a href="https://refactor.sh" target="_blank">
-      <img src="https://img.shields.io/badge/try%20it-free-blue?style=for-the-badge" alt="Try it free"/>
-    </a>
     <a href="https://github.com/jithindeepjc/refactorgpt/blob/master/LICENSE">
       <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="MIT License"/>
     </a>
     <img src="https://img.shields.io/badge/28%20tests-passing-brightgreen?style=for-the-badge" alt="Tests Passing"/>
+    <img src="https://img.shields.io/badge/status-self--host-6a0dad?style=for-the-badge" alt="Self-Host"/>
   </p>
 
   <br/>
@@ -54,11 +52,22 @@ And then **one click** → shareable OG image card with stats:
 
 ---
 
-## 🚀 Try It Now
+## 🚀 Quick Start
 
-**[→ refactor.sh](https://refactor.sh)** — No login. No signup. Paste code. Done.
+```bash
+git clone https://github.com/jithindeepjc/refactorgpt.git
+cd refactorgpt
+bun install
+cp .env.example .env.local
+# Edit .env.local with your OpenRouter key
 
-5 free refactors per month. Upgrade to Pro ($9/mo) for unlimited.
+bun run dev
+# → http://localhost:3000
+```
+
+No login. No signup. Paste code. Done.
+
+Deploy to [Vercel](https://vercel.com) (free) or any Node.js host in one click.
 
 ---
 
@@ -75,21 +84,6 @@ And then **one click** → shareable OG image card with stats:
 - **Demo mode** — works entirely without an API key
 
 ---
-
-## 📦 Local Setup
-
-```bash
-git clone https://github.com/jithindeepjc/refactorgpt.git
-cd refactorgpt
-bun install
-
-# Get a free API key at https://openrouter.ai/keys
-cp .env.example .env.local
-# Edit .env.local with your key
-
-bun run dev
-# → http://localhost:3000
-```
 
 ### Running Tests
 
@@ -157,12 +151,11 @@ MIT — free to use, modify, and share.
 
 <div align="center">
   <p>
-    <a href="https://refactor.sh"><strong>refactor.sh</strong></a> ·
     <a href="https://github.com/jithindeepjc/refactorgpt/issues">Report Bug</a> ·
     <a href="https://github.com/jithindeepjc/refactorgpt/issues">Feature Request</a>
   </p>
   <p>
-    <sub>Built with Next.js + Shiki + Stripe + OpenRouter · Deployed on Vercel</sub>
+    <sub>Built with Next.js + Shiki + Stripe + OpenRouter</sub>
   </p>
   <br/>
 </div>
