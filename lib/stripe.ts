@@ -2,8 +2,12 @@ import Stripe from "stripe"
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "")
 
-export const PRICE_PRO_MONTHLY = process.env.STRIPE_PRICE_PRO || "price_pro_monthly"
-export const PRICE_TEAMS_MONTHLY = process.env.STRIPE_PRICE_TEAMS || "price_teams_monthly"
+export const PRICE_PRO_MONTHLY = process.env.STRIPE_PRICE_PRO || ""
+export const PRICE_TEAMS_MONTHLY = process.env.STRIPE_PRICE_TEAMS || ""
+
+export function isStripeConfigured(): boolean {
+  return !!(process.env.STRIPE_SECRET_KEY && PRICE_PRO_MONTHLY)
+}
 
 export const PLANS = [
   {

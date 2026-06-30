@@ -6,6 +6,7 @@ import { CodeBlock } from "./code-block"
 export function RefactorResult() {
   const { result, language, error, reset } = useRefactor()
   const [copied, setCopied] = useState(false)
+  const [shareError, setShareError] = useState<string | null>(null)
 
   if (error) {
     return (
@@ -16,6 +17,28 @@ export function RefactorResult() {
   }
 
   if (!result) return null
+
+  async function handleShare() {
+    setShareError(null)
+    try {
+      const res = await fetch("/api/store-card", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ result, language }),
+      })
+      const data = await res.json()
+      if (!data.id) {
+        setShareError(data.error || "Failed to create card")
+        return
+      }
+      const url = `${window.location.origin}/card/${data.id}`
+      await navigator.clipboard.writeText(url)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      setShareError("Failed to copy — check clipboard permissions")
+    }
+  }
 
   return (
     <div className="mt-8 space-y-6">
@@ -45,22 +68,7 @@ export function RefactorResult() {
 
       <div className="text-center pt-4 border-t border-zinc-800">
         <button
-          onClick={async () => {
-            try {
-              const res = await fetch("/api/store-card", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ result, language }),
-              })
-              const data = await res.json()
-              const url = `${window.location.origin}/card/${data.id}`
-              await navigator.clipboard.writeText(url)
-              setCopied(true)
-              setTimeout(() => setCopied(false), 2000)
-            } catch {
-              // fallback
-            }
-          }}
+          onClick={handleShare}
           className="inline-flex items-center gap-2 rounded-lg bg-zinc-800 px-5 py-2.5 text-sm text-white hover:bg-zinc-700 transition-colors"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -70,6 +78,9 @@ export function RefactorResult() {
           </svg>
           {copied ? "Copied!" : "Copy shareable card URL"}
         </button>
+        {shareError && (
+          <p className="text-xs text-red-400 mt-2">{shareError}</p>
+        )}
         <p className="mt-2 text-xs text-zinc-600">
           Share on Twitter, LinkedIn, or Slack — the preview shows the before/after card
         </p>

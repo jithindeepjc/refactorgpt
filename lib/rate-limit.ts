@@ -12,14 +12,19 @@ interface RateEntry {
 const store = new Map<string, RateEntry>()
 
 // Cleanup stale entries every 15 minutes
-setInterval(() => {
+const interval = setInterval(() => {
   const now = Date.now()
   for (const [key, entry] of store) {
     if (now - entry.monthStart > MONTH_MS) {
       store.delete(key)
     }
   }
-}, 15 * 60 * 1000).unref()
+}, 15 * 60 * 1000)
+
+// unref() is not available in Edge Runtime — guard it
+if (typeof interval.unref === "function") {
+  interval.unref()
+}
 
 function getMonthStart(): number {
   const d = new Date()

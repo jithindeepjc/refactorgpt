@@ -9,7 +9,16 @@ export async function GET(
 ) {
   const data = getCardData(params.id)
   if (!data) {
-    return new Response("Card not found", { status: 404 })
+    return new Response(
+      `<html><body style="background:#09090b;color:#e4e4e7;display:flex;align-items:center;justify-content:center;height:100vh;font-family:system-ui,sans-serif;margin:0">
+        <div style="text-align:center">
+          <h1 style="font-size:24px;margin-bottom:8px">Card not found</h1>
+          <p style="color:#a1a1aa;margin-bottom:24px">This card has expired or doesn't exist.</p>
+          <a href="/" style="color:#3b82f6;text-decoration:none;font-size:14px">Back to RefactorGPT</a>
+        </div>
+      </body></html>`,
+      { status: 404, headers: { "Content-Type": "text/html" } }
+    )
   }
 
   return new ImageResponse(

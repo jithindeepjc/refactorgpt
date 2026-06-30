@@ -53,9 +53,12 @@ describe("refactorCode", () => {
     expect(result.improvements).toHaveLength(1)
   })
 
-  it("throws if no API key configured", async () => {
+  it("uses demo mode when no API key configured", async () => {
     delete process.env.OPENROUTER_API_KEY
-    await expect(refactorCode(VALID_CODE_SHORT, "JavaScript")).rejects.toThrow("OPENROUTER_API_KEY")
+    const result = await refactorCode(VALID_CODE_SHORT, "JavaScript")
+    expect(result.refactored).toContain("Demo mode")
+    expect(result.improvements).toContain("Added demo mode header")
+    expect(result.original).toBe(VALID_CODE_SHORT)
   })
 
   it("rejects empty code", async () => {
@@ -122,7 +125,7 @@ describe("refactorCode", () => {
     expect(callArgs[0]).toBe("https://openrouter.ai/api/v1/chat/completions")
 
     const body = JSON.parse(callArgs[1].body as string)
-    expect(body.model).toBe("anthropic/claude-3.5-sonnet")
+    expect(body.model).toBe("openrouter/free")
     expect(body.messages).toHaveLength(2)
     expect(body.messages[1].content).toContain("JavaScript")
   })

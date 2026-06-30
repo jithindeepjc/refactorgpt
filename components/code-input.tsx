@@ -10,9 +10,29 @@ const LANGUAGES = [
 export function CodeInput() {
   const [code, setCode] = useState("")
   const [language, setLanguage] = useState("Python")
+  const [upgradeError, setUpgradeError] = useState<string | null>(null)
   const { refactor, loading, remaining } = useRefactor()
   const limitReached = remaining <= 0
   const canRefactor = code.trim().length > 0 && !loading && !limitReached
+
+  async function handleUpgrade() {
+    setUpgradeError(null)
+    try {
+      const res = await fetch("/api/create-checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: "pro" }),
+      })
+      const data = await res.json()
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        setUpgradeError(data.error || "Checkout unavailable")
+      }
+    } catch {
+      setUpgradeError("Connection error — please try again")
+    }
+  }
 
   return (
     <div className="rounded-xl border border-zinc-800 bg-zinc-950 p-6">
@@ -46,7 +66,7 @@ export function CodeInput() {
           disabled={!canRefactor}
           className="rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         >
-          {loading ? "✨ Refactoring..." : limitReached ? "Refactor ✨" : "Refactor ✨"}
+          {loading ? "✨ Refactoring..." : "Refactor ✨"}
         </button>
       </div>
       {limitReached && (
@@ -55,23 +75,14 @@ export function CodeInput() {
             Free limit reached — 5 refactors per month.
           </p>
           <button
-            onClick={async () => {
-              try {
-                const res = await fetch("/api/create-checkout", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ plan: "pro" }),
-                })
-                const { url } = await res.json()
-                window.location.href = url
-              } catch {
-                // fallback
-              }
-            }}
+            onClick={handleUpgrade}
             className="rounded-lg bg-blue-600 px-5 py-2 text-sm font-medium text-white hover:bg-blue-700 transition-colors"
           >
             Upgrade to Pro — $9/mo
           </button>
+          {upgradeError && (
+            <p className="text-xs text-red-400 mt-2">{upgradeError}</p>
+          )}
           <p className="text-xs text-zinc-600 mt-2">
             Unlimited refactors, private cards, no watermark
           </p>
